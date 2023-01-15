@@ -20,7 +20,7 @@ if [ "$MODULE_DEPS" = "1" ]; then
   sync_repository "$ZEN_REMOTE_REPOSITORY" "$ZEN_REMOTE_DIR" "$ZEN_REMOTE_REVISION"
 
   execute cd "$ZEN_REMOTE_DIR" && mkdir -p build
-  execute cmake -DZEN_REMOTE_GRPC_SYSROOT="$GRPC_DEV_DIR/native/Debug" -B build -G Ninja
+  execute cmake -DZEN_REMOTE_CLIENT=OFF -DZEN_REMOTE_GRPC_SYSROOT="$GRPC_DEV_DIR/native/Debug" -B build -G Ninja
   execute cmake --build build
 
   sync_repository "$ZUKOU_REPOSITORY" "$ZUKOU_DIR" "$ZUKOU_REVISION"
