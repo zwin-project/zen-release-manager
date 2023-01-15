@@ -43,4 +43,3 @@ jobs:
 
           ./zen-release build desktop
           sudo ./zen-release install desktop
-

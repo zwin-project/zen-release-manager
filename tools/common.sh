@@ -37,6 +37,7 @@ export ZWIN_DIR="${BUILD_DIR}/zwin"
 export GRPC_DEV_DIR="${BUILD_DIR}/grpc-dev"
 export ZEN_DIR="${BUILD_DIR}/zen"
 export ZENNIST_DIR="${BUILD_DIR}/zennist"
+export ZEN_OBJECT_VIEWER_DIR="${BUILD_DIR}/zen-object-viewer"
 export ZEN_REMOTE_DIR="${BUILD_DIR}/zen-remote"
 export ZUKOU_DIR="${BUILD_DIR}/zukou"
 

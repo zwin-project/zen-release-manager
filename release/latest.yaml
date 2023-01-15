@@ -17,3 +17,6 @@ zen-remote:
 zukou:
   repository: https://github.com/zwin-project/zukou.git
   revision: main
+zen-object-viewer:
+  repository: https://github.com/zwin-project/zen-object-viewer.git
+  revision: main

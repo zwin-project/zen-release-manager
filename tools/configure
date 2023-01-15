@@ -13,6 +13,7 @@ repositories = [
     "zen-remote",
     "zukou",
     "zennist",
+    "zen-object-viewer",
 ]
 
 
