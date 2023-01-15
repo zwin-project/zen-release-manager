@@ -1,0 +1,19 @@
+version: "0.1"
+zwin:
+  repository: https://github.com/zwin-project/zwin.git
+  revision: draft
+grpc-dev:
+  repository: https://github.com/zwin-project/grpc-dev.git
+  revision: v1.49.1
+zen:
+  repository: https://github.com/zwin-project/zen.git
+  revision: main
+zennist:
+  repository: https://github.com/zwin-project/zennist.git
+  revision: main
+zen-remote:
+  repository: https://github.com/zwin-project/zen-remote.git
+  revision: main
+zukou:
+  repository: https://github.com/zwin-project/zukou.git
+  revision: main

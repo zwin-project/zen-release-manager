@@ -1,0 +1,45 @@
+name: meson_test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-with-clang:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update &&
+          sudo apt-get install \
+            libwayland-dev libwlroots-dev libpixman-1-dev \
+            libxkbcommon-dev libglu1-mesa-dev libglew-dev weston \
+            meson libfreetype-dev librsvg2-dev libcglm-dev
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: "3.x"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build & Test
+        run: |
+          pip3 install -r requirements.txt
+
+          ./zen-release configure ./release/latest.yaml
+
+          ./zen-release build protocol
+          sudo ./zen-release install protocol
+
+          ./zen-release build deps
+          sudo ./zen-release install deps
+
+          ./zen-release build desktop
+          sudo ./zen-release install desktop
+

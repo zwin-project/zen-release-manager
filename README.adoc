@@ -1,0 +1,44 @@
+= Zen Release Manager
+
+== Install Python Packages
+
+[source, shell]
+----
+pip3 install -r requirements.txt
+----
+
+== Configure
+
+[source, shell]
+----
+./zen-release configure ./release/latest.yaml
+----
+
+== Build & Install Protocols
+
+[source, shell]
+----
+./zen-release build protocol
+sudo ./zen-release install protocol
+----
+
+== Build & Install Dependencies
+
+This may take more than 10 minutes.
+
+[source, shell]
+----
+./zen-release build deps
+sudo ./zen-release install deps
+----
+
+== Build & Install ZEN Desktop
+
+This may take more than 10 minutes.
+
+[source, shell]
+----
+./zen-release build desktop
+sudo ./zen-release install desktop
+----
+

@@ -1,0 +1,141 @@
+#! /bin/sh
+
+cd $(dirname "$0") || exit
+
+PROG_NAME=$(basename "$0")
+export PROJECT_ROOT=$(pwd)
+
+show_help() {
+  echo "    [Usage] $PROG_NAME <command> [option]"
+  echo ""
+  echo "    COMMAND:"
+  echo "        configure <release.yaml> : Configure build"
+  echo "        build module...          : Build"
+  echo "        install module...        : Install"
+  echo "        uninstall module...      : Unistall"
+  echo "        clean                    : Clean build directory"
+  echo "        help                     : Show this help text"
+  echo ""
+  echo "    MODULE:"
+  echo "        protocol                 : zwin protocol"
+  echo "        deps | dependeincies     : Dependencies"
+  echo "        desktop                  : desktop environment"
+}
+
+success() {
+  echo ""
+  echo "==========================="
+  echo "         succeeded"
+  echo "==========================="
+  echo ""
+  exit 0;
+}
+
+configure() {
+  RELEASE_YAML="$1"
+  if [ "$RELEASE_YAML" = "" ]; then
+    show_help
+    exit 1
+  fi
+
+  . tools/common.sh
+  execute ./tools/configure "$RELEASE_YAML" "$BUILD_DIR"
+  success
+}
+
+build() {
+  while :; do
+    case $1 in
+      protocol)
+        export MODULE_PROTOCOL=1
+        ;;
+      deps|dependeincies)
+        export MODULE_DEPS=1
+        ;;
+      desktop)
+        export MODULE_DESKTOP=1
+        ;;
+      *)
+        show_help
+        exit 1
+        ;;
+    esac
+
+    shift
+
+    if [ $# = 0 ]; then
+      break
+    fi
+  done
+
+  . tools/build.sh
+  success
+}
+
+install() {
+  while :; do
+    case $1 in
+      protocol)
+        export MODULE_PROTOCOL=1
+        ;;
+      deps|dependeincies)
+        export MODULE_DEPS=1
+        ;;
+      desktop)
+        export MODULE_DESKTOP=1
+        ;;
+      *)
+        show_help
+        exit 1
+        ;;
+    esac
+
+    shift
+
+    if [ $# = 0 ]; then
+      break
+    fi
+  done
+
+  . tools/install.sh
+  success
+}
+
+uninstall() {
+  . ./tools/uninstall.sh
+  success
+}
+
+clean() {
+  . ./tools/clean.sh
+  success
+}
+
+case $1 in
+  configure)
+    configure "$2"
+    ;;
+  build)
+    shift
+    build "$@"
+    ;;
+  install)
+    shift
+    install "$@"
+    ;;
+  uninstall)
+    uninstall
+    ;;
+  clean)
+    clean
+    ;;
+  help|-h|--help)
+    show_help
+    exit 0
+    ;;
+  *)
+    show_help
+    exit 1
+    ;;
+esac
+

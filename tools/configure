@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+
+import yaml
+import sys
+import os
+
+version = "0.1"
+
+repositories = [
+    "zwin",
+    "grpc-dev",
+    "zen",
+    "zen-remote",
+    "zukou",
+    "zennist",
+]
+
+
+class Argument():
+    build_dir: str
+    file: str
+    valid: bool
+
+    def __init__(self) -> None:
+        if len(sys.argv) != 3:
+            self.valid = False
+            return
+
+        self.file = sys.argv[1]
+        self.build_dir = sys.argv[2]
+
+
+class GitRevisionInfo():
+    ok: bool = True
+    repository: str
+    revision: str
+
+    def __init__(self, info: dict) -> None:
+        if "repository" in info:
+            self.repository = info["repository"]
+        else:
+            self.ok = False
+
+        if "revision" in info:
+            self.revision = info["revision"]
+        else:
+            self.ok = False
+
+
+class Configuration:
+    repositories: dict[str, GitRevisionInfo] = {}
+
+    def valid(self) -> bool:
+        for key in self.repositories:
+            if not self.repositories[key]:
+                return False
+            if not self.repositories[key].ok:
+                return False
+        return True
+
+    def to_config_str(self):
+        string = "CONFIGURED=1\n\n"
+        for key in self.repositories:
+            info = self.repositories[key]
+            string += f"{key.upper().replace('-', '_')}_REPOSITORY=\"{info.repository}\"\n"
+            string += f"{key.upper().replace('-', '_')}_REVISION=\"{info.revision}\"\n\n"
+
+        return string
+
+
+def parse_yaml(path: str) -> Configuration:
+
+    try:
+        with open(path) as f:
+            obj = yaml.safe_load(f)
+    except Exception as e:
+        print(e)
+        return None
+
+    config = Configuration()
+
+    if not "version" in obj:
+        return None
+
+    if obj["version"] != version:
+        print(
+            f'Configuration file of version {version} is required, but {obj["version"]} is given')
+        return None
+
+    for repo_key in repositories:
+        if repo_key in obj:
+            config.repositories[repo_key] = GitRevisionInfo(obj[repo_key])
+        else:
+            print(f"{repo_key} is not found in {path}")
+            return None
+
+    if not config.valid():
+        print("Given YAML is not valid")
+        return None
+
+    return config
+
+
+def configure(config: Configuration, path: str):
+    os.makedirs(path, exist_ok=True)
+
+    with open(os.path.join(path, "config"), mode="w") as f:
+        f.write(config.to_config_str())
+
+
+def main() -> int:
+    arg = Argument()
+
+    config = parse_yaml(arg.file)
+    if not config:
+        return 1
+
+    try:
+        configure(config, arg.build_dir)
+    except Exception as e:
+        print(e)
+        return 1
+
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())
