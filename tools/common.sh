@@ -27,6 +27,7 @@ sync_repository() {
     execute git clone "$repo" "$dir" --recursive
   fi
   execute cd "$dir"
+  execute git fetch
   execute git checkout "$revision"
   execute git submodule update --init --recursive
 }
