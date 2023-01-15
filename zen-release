@@ -117,7 +117,7 @@ generate_config() {
     [ ! -e "$config_dir/$file_name" ] && break
     file_name="$file_name.bak"
   done
-  [ -e "$config_dir/$file_name" ] && mv "$config_dir/config.toml" "$config_dir/$file_name"
+  [ -e "$config_dir/config.toml" ] && mv "$config_dir/config.toml" "$config_dir/$file_name"
 
   echo "Generated $config_dir/config.toml"
   echo
