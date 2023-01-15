@@ -20,3 +20,6 @@ zukou:
 zen-object-viewer:
   repository: https://github.com/zwin-project/zen-object-viewer.git
   revision: v0.1.0
+zen-mirror:
+  url: https://github.com/zwin-project/zen-oculus-display-system/releases/download/v0.1.0/zen-mirror.apk
+  sha256: 150fc64457fc028db7f8233117dbbae98093febd886661d18d03be5117be07d8

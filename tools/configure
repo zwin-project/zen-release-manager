@@ -16,6 +16,10 @@ repositories = [
     "zen-object-viewer",
 ]
 
+remote_files = [
+    "zen-mirror",
+]
+
 
 class Argument():
     build_dir: str
@@ -48,8 +52,26 @@ class GitRevisionInfo():
             self.ok = False
 
 
+class RemoteFile():
+    ok: bool = True
+    url: str
+    sha256: str
+
+    def __init__(self, info: dict) -> None:
+        if "url" in info:
+            self.url = info["url"]
+        else:
+            self.ok = False
+
+        if "sha256" in info:
+            self.sha256 = info["sha256"]
+        else:
+            self.ok = False
+
+
 class Configuration:
     repositories: dict[str, GitRevisionInfo] = {}
+    remote_files: dict[str, RemoteFile] = {}
 
     def valid(self) -> bool:
         for key in self.repositories:
@@ -57,6 +79,13 @@ class Configuration:
                 return False
             if not self.repositories[key].ok:
                 return False
+
+        for key in self.remote_files:
+            if not self.remote_files[key]:
+                return False
+            if not self.remote_files[key].ok:
+                return False
+
         return True
 
     def to_config_str(self):
@@ -65,6 +94,11 @@ class Configuration:
             info = self.repositories[key]
             string += f"{key.upper().replace('-', '_')}_REPOSITORY=\"{info.repository}\"\n"
             string += f"{key.upper().replace('-', '_')}_REVISION=\"{info.revision}\"\n\n"
+
+        for key in self.remote_files:
+            remote_file = self.remote_files[key]
+            string += f"{key.upper().replace('-', '_')}_URL=\"{remote_file.url}\"\n"
+            string += f"{key.upper().replace('-', '_')}_SHA256=\"{remote_file.sha256}\"\n\n"
 
         return string
 
@@ -93,6 +127,13 @@ def parse_yaml(path: str) -> Configuration:
             config.repositories[repo_key] = GitRevisionInfo(obj[repo_key])
         else:
             print(f"{repo_key} is not found in {path}")
+            return None
+
+    for remote_key in remote_files:
+        if remote_key in obj:
+            config.remote_files[remote_key] = RemoteFile(obj[remote_key])
+        else:
+            print(f"{remote_key} is not found in {path}")
             return None
 
     if not config.valid():

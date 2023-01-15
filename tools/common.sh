@@ -41,6 +41,7 @@ export ZENNIST_DIR="${BUILD_DIR}/zennist"
 export ZEN_OBJECT_VIEWER_DIR="${BUILD_DIR}/zen-object-viewer"
 export ZEN_REMOTE_DIR="${BUILD_DIR}/zen-remote"
 export ZUKOU_DIR="${BUILD_DIR}/zukou"
+export ZEN_MIRROR_DIR="${BUILD_DIR}/zen-mirror"
 
 export CC=clang
 export CXX=clang++
