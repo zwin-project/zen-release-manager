@@ -1,7 +1,5 @@
 #! /bin/sh
 
-. tools/common.sh
-
 find_command_from_path() {
   path=$(command -v "$1")
   [ -z "$path" ] && exit

@@ -110,13 +110,14 @@ generate_config() {
   config_dir="$XDG_CONFIG_HOME"
   [ -z "$config_dir" ] && config_dir="$HOME"
   config_dir="$config_dir/.config/zen-desktop"
-  file_name="config.toml"
+  mkdir -p "$config_dir"
 
+  file_name="config.toml"
   while true; do
     [ ! -e "$config_dir/$file_name" ] && break
     file_name="$file_name.bak"
   done
-  mv "$config_dir/config.toml" "$config_dir/$file_name"
+  [ -e "$config_dir/config.toml" ] && mv "$config_dir/config.toml" "$config_dir/$file_name"
 
   echo "Generated $config_dir/config.toml"
   echo
