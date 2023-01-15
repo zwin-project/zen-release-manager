@@ -41,5 +41,11 @@ if [ "$MODULE_DESKTOP" = "1" ]; then
   execute cd "$ZEN_DIR"
   execute meson build
   execute ninja -C build
+
+  sync_repository "$ZEN_OBJECT_VIEWER_REPOSITORY" "$ZEN_OBJECT_VIEWER_DIR" "$ZEN_OBJECT_VIEWER_REVISION"
+
+  execute cd "$ZEN_OBJECT_VIEWER_DIR"
+  execute meson build
+  execute ninja -C build
 fi
 
