@@ -17,9 +17,10 @@ jobs:
         run: |
           sudo apt-get update &&
           sudo apt-get install \
-            libwayland-dev libwlroots-dev libpixman-1-dev \
+            meson libwayland-dev libwlroots-dev libpixman-1-dev \
             libxkbcommon-dev libglu1-mesa-dev libglew-dev weston \
-            meson libfreetype-dev librsvg2-dev libcglm-dev
+            libfreetype-dev librsvg2-dev libcglm-dev libglm-dev \
+            libjpeg-dev
 
       - uses: actions/setup-python@v1
         with:
