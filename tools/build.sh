@@ -39,7 +39,7 @@ if [ "$MODULE_DESKTOP" = "1" ]; then
   sync_repository "$ZEN_REPOSITORY" "$ZEN_DIR" "$ZEN_REVISION"
 
   execute cd "$ZEN_DIR"
-  execute meson build
+  execute meson build -Dtests=false
   execute ninja -C build
 
   sync_repository "$ZEN_OBJECT_VIEWER_REPOSITORY" "$ZEN_OBJECT_VIEWER_DIR" "$ZEN_OBJECT_VIEWER_REVISION"
