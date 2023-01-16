@@ -10,16 +10,19 @@ show_help() {
   echo ""
   echo "    COMMAND:"
   echo "        configure <release.yaml> : Configure build"
+  echo "        download modules...      : Download"
   echo "        build module...          : Build"
   echo "        install module...        : Install"
   echo "        uninstall module...      : Unistall"
   echo "        clean                    : Clean build directory"
+  echo "        generate-config          : Create default config file"
   echo "        help                     : Show this help text"
   echo ""
   echo "    MODULE:"
-  echo "        protocol                 : zwin protocol"
+  echo "        protocol                 : Zwin protocol"
   echo "        deps | dependeincies     : Dependencies"
-  echo "        desktop                  : desktop environment"
+  echo "        desktop                  : Desktop environment"
+  echo "        zen-mirror               : Zen Mirror"
 }
 
 success() {
@@ -43,7 +46,7 @@ configure() {
   success
 }
 
-build() {
+read_module() {
   while :; do
     case $1 in
       protocol)
@@ -54,6 +57,9 @@ build() {
         ;;
       desktop)
         export MODULE_DESKTOP=1
+        ;;
+      zen-mirror)
+        export MODULE_ZEN_MIRROR=1
         ;;
       *)
         show_help
@@ -67,37 +73,26 @@ build() {
       break
     fi
   done
+}
+
+build() {
+  read_module "$@"
 
   . tools/build.sh
   success
 }
 
 install() {
-  while :; do
-    case $1 in
-      protocol)
-        export MODULE_PROTOCOL=1
-        ;;
-      deps|dependeincies)
-        export MODULE_DEPS=1
-        ;;
-      desktop)
-        export MODULE_DESKTOP=1
-        ;;
-      *)
-        show_help
-        exit 1
-        ;;
-    esac
-
-    shift
-
-    if [ $# = 0 ]; then
-      break
-    fi
-  done
+  read_module "$@"
 
   . tools/install.sh
+  success
+}
+
+download() {
+  read_module "$@"
+
+  . tools/download.sh
   success
 }
 
@@ -111,9 +106,32 @@ clean() {
   success
 }
 
+generate_config() {
+  config_dir="$XDG_CONFIG_HOME"
+  [ -z "$config_dir" ] && config_dir="$HOME"
+  config_dir="$config_dir/.config/zen-desktop"
+  mkdir -p "$config_dir"
+
+  file_name="config.toml"
+  while true; do
+    [ ! -e "$config_dir/$file_name" ] && break
+    file_name="$file_name.bak"
+  done
+  [ -e "$config_dir/config.toml" ] && mv "$config_dir/config.toml" "$config_dir/$file_name"
+
+  echo "Generated $config_dir/config.toml"
+  echo
+  . ./tools/generate-config.sh | tee "$config_dir/config.toml"
+  success
+}
+
 case $1 in
   configure)
     configure "$2"
+    ;;
+  download)
+    shift
+    download "$@"
     ;;
   build)
     shift
@@ -128,6 +146,9 @@ case $1 in
     ;;
   clean)
     clean
+    ;;
+  generate-config)
+    generate_config
     ;;
   help|-h|--help)
     show_help

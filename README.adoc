@@ -14,6 +14,13 @@ pip3 install -r requirements.txt
 ./zen-release configure ./release/latest.yaml
 ----
 
+== Download
+
+[source, shell]
+----
+./zen-release download zen-mirror
+----
+
 == Build & Install Protocols
 
 [source, shell]
@@ -42,3 +49,11 @@ This may take more than 10 minutes.
 sudo ./zen-release install desktop
 ----
 
+== Generate config file
+
+`$XDG_CONFIG_HOME/.config/zen-desktop/config.toml` is created.
+
+[source, shell]
+----
+./zen-release generate-config
+----

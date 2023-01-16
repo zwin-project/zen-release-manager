@@ -27,3 +27,7 @@ if [ -e "$ZUKOU_DIR/build" ]; then
   execute ninja -C build uninstall
 fi
 
+if [ -e "$ZEN_OBJECT_VIEWER_DIR" ]; then
+  execute cd "$ZEN_OBJECT_VIEWER_DIR"
+  execute ninja -C build uninstall
+fi

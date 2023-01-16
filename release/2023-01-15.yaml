@@ -7,7 +7,7 @@ grpc-dev:
   revision: v1.49.1
 zen:
   repository: https://github.com/zwin-project/zen.git
-  revision: v0.1.1
+  revision: v0.1.0
 zennist:
   repository: https://github.com/zwin-project/zennist.git
   revision: v0.1.0
