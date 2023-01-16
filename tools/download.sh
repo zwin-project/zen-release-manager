@@ -25,8 +25,8 @@ if [ "$MODULE_ZEN_MIRROR" = "1" ]; then
     failure
   fi
 
-  echo "*** shasum -a 256 -c zen-mirror-sha256"
-  cat ./zen-mirror.apk | shasum -a 256 -c zen-mirror-sha256 
+  echo "*** sha256sum -c zen-mirror-sha256"
+  cat ./zen-mirror.apk | sha256sum -c zen-mirror-sha256
 
   if [ "$?" != 0 ]; then
     failure
