@@ -22,4 +22,4 @@ zen-object-viewer:
   revision: v0.1.0
 zen-mirror:
   url: https://github.com/zwin-project/zen-oculus-display-system/releases/download/v0.1.0/zen-mirror.apk
-  sha256: 150fc64457fc028db7f8233117dbbae98093febd886661d18d03be5117be07d8
+  sha256: f75afd5e607586a0776ddd5ed124d01ed95672e79a84f5005f70be5b228851df
