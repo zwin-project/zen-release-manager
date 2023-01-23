@@ -30,6 +30,28 @@ icon = "/usr/share/icons/hicolor/128x128/apps/google-chrome.png"
 END
 fi
 
+path=$(find_command_from_path chromium-browser)
+if [ -s "$path" ]; then
+  cat << END
+[[favorite_apps]]
+name = "Chromium"
+exec = "chromium-browser --enable-features=UseOzonePlatform --ozone-platform=wayland --disable-gpu"
+icon = "/usr/share/icons/hicolor/128x128/apps/chromium-browser.png"
+
+END
+fi
+
+path=$(find_command_from_path chromium)
+if [ -s "$path" ]; then
+  cat << END
+[[favorite_apps]]
+name = "Chromium"
+exec = "chromium --enable-features=UseOzonePlatform --ozone-platform=wayland --disable-gpu"
+icon = "/usr/share/icons/hicolor/128x128/apps/chromium.png"
+
+END
+fi
+
 path=$(find_command_from_path weston-terminal)
 if [ -s "$path" ]; then
   cat << END
