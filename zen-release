@@ -108,8 +108,8 @@ clean() {
 
 generate_config() {
   config_dir="$XDG_CONFIG_HOME"
-  [ -z "$config_dir" ] && config_dir="$HOME"
-  config_dir="$config_dir/.config/zen-desktop"
+  [ -z "$config_dir" ] && config_dir="$HOME/.config"
+  config_dir="$config_dir/zen-desktop"
   mkdir -p "$config_dir"
 
   file_name="config.toml"
