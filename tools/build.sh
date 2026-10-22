@@ -6,7 +6,7 @@ if [ "$MODULE_PROTOCOL" = "1" ]; then
   sync_repository "$ZWIN_REPOSITORY" "$ZWIN_DIR" "$ZWIN_REVISION"
 
   execute cd "$ZWIN_DIR"
-  execute meson build
+  execute meson setup build
   execute ninja -C build
 fi
 
@@ -25,7 +25,7 @@ if [ "$MODULE_DEPS" = "1" ]; then
 
   sync_repository "$ZUKOU_REPOSITORY" "$ZUKOU_DIR" "$ZUKOU_REVISION"
   execute cd "$ZUKOU_DIR"
-  execute meson build
+  execute meson setup build
   execute ninja -C build
 fi
 
@@ -33,19 +33,19 @@ if [ "$MODULE_DESKTOP" = "1" ]; then
   sync_repository "$ZENNIST_REPOSITORY" "$ZENNIST_DIR" "$ZENNIST_REVISION"
 
   execute cd "$ZENNIST_DIR"
-  execute meson build
+  execute meson setup build
   execute ninja -C build
 
   sync_repository "$ZEN_REPOSITORY" "$ZEN_DIR" "$ZEN_REVISION"
 
   execute cd "$ZEN_DIR"
-  execute meson build -Dtests=false
+  execute meson setup build -Dtests=false
   execute ninja -C build
 
   sync_repository "$ZEN_OBJECT_VIEWER_REPOSITORY" "$ZEN_OBJECT_VIEWER_DIR" "$ZEN_OBJECT_VIEWER_REVISION"
 
   execute cd "$ZEN_OBJECT_VIEWER_DIR"
-  execute meson build
+  execute meson setup build
   execute ninja -C build
 fi
 
